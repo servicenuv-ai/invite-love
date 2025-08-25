@@ -3,62 +3,102 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title> Almoço — Convite</title>
-  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>💕 Nosso Almoço Especial — Convite</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg1:#fff4f8; --bg2:#ffe6ee; --ink:#4a2b36; --muted:#7a5a64; --rose:#ff7aa2; --rose2:#ff3d6e; --peach:#ffb199; --cream:#fff9fb;
+      --bg1:#fff8fa; --bg2:#ffe3ed; --ink:#2d1b1f; --muted:#6b4c57; --rose:#ff6b9d; --rose2:#ff1744; --peach:#ffab91; --cream:#fffbfc;
+      --gold:#ffd700; --shadow:rgba(255,27,68,.15); --glow:rgba(255,107,157,.4);
     }
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0}
-    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:radial-gradient(900px 600px at 20% -10%,rgba(255,170,195,.35),transparent 60%),radial-gradient(900px 600px at 120% 10%,rgba(255,210,220,.45),transparent 60%),linear-gradient(180deg,var(--bg1),var(--bg2));overflow:hidden}
-    a{color:var(--rose2);text-decoration:none}
+    html,body{height:100%;margin:0;overflow-x:hidden}
+    body{font-family:'Poppins',system-ui,-apple-system,sans-serif;color:var(--ink);background:radial-gradient(1200px 800px at 30% -20%,rgba(255,170,195,.4),transparent 70%),radial-gradient(1000px 700px at 80% 120%,rgba(255,210,230,.5),transparent 70%),linear-gradient(135deg,var(--bg1),var(--bg2));min-height:100vh}
+    a{color:var(--rose2);text-decoration:none;transition:all .3s ease}
+    a:hover{color:var(--rose)}
 
-    /* Hearts background */
-    #hearts{position:fixed;inset:0;z-index:0}
+    /* Floating hearts background */
+    #hearts{position:fixed;inset:0;z-index:0;pointer-events:none}
 
-    .wrap{position:relative;z-index:1;min-height:100dvh;display:grid;place-items:center;padding:24px}
-    .card{width:min(880px,95vw);background:rgba(255,255,255,.7);backdrop-filter:blur(10px);border-radius:28px;border:1px solid rgba(255,80,120,.25);box-shadow:0 15px 80px rgba(255,62,116,.16), inset 0 1px 0 rgba(255,255,255,.6);padding:30px 30px 36px;position:relative;overflow:hidden}
-    .ribbon{position:absolute;inset:auto -60px -60px auto;width:220px;height:220px;background:conic-gradient(from 0deg,var(--rose),var(--rose2),var(--peach),var(--rose));filter:blur(28px);opacity:.25;border-radius:50%}
+    .wrap{position:relative;z-index:1;min-height:100dvh;display:grid;place-items:center;padding:20px}
+    .card{width:min(900px,95vw);background:linear-gradient(135deg,rgba(255,255,255,.95),rgba(255,252,252,.85));backdrop-filter:blur(15px);border-radius:32px;border:2px solid rgba(255,107,157,.3);box-shadow:0 25px 100px var(--shadow), 0 8px 40px rgba(255,107,157,.2), inset 0 2px 0 rgba(255,255,255,.8);padding:40px 35px 45px;position:relative;overflow:hidden}
 
-    header{text-align:center;margin-bottom:10px}
-    .romantic{font-family:"Great Vibes",cursive;font-size:clamp(42px,7vw,72px);line-height:1;color:var(--rose2);text-shadow:0 6px 24px rgba(255,61,110,.25)}
-    .subtitle{margin:6px auto 10px;color:var(--muted);font-size:15px}
+    /* Decorative elements */
+    .ribbon{position:absolute;inset:auto -80px -80px auto;width:280px;height:280px;background:conic-gradient(from 45deg,var(--rose),var(--rose2),var(--peach),var(--gold),var(--rose));filter:blur(35px);opacity:.3;border-radius:50%;animation:rotate 20s linear infinite}
+    @keyframes rotate{to{transform:rotate(360deg)}}
 
-    .details{display:grid;gap:8px;margin:14px auto 12px;text-align:center}
-    .details strong{color:#7d2a43}
+    .sparkles{position:absolute;inset:0;pointer-events:none}
+    .sparkle{position:absolute;width:4px;height:4px;background:var(--gold);border-radius:50%;animation:sparkle 3s ease-in-out infinite;box-shadow:0 0 8px var(--gold)}
+    .sparkle:nth-child(1){top:15%;left:10%;animation-delay:0s}
+    .sparkle:nth-child(2){top:25%;right:15%;animation-delay:1s}
+    .sparkle:nth-child(3){bottom:20%;left:20%;animation-delay:2s}
+    .sparkle:nth-child(4){bottom:30%;right:10%;animation-delay:.5s}
+    @keyframes sparkle{0%,100%{opacity:0;transform:scale(.5)}50%{opacity:1;transform:scale(1.2)}}
 
-    .countdown{display:flex;justify-content:center;gap:12px;margin:12px 0 22px}
-    .pill{min-width:78px;border:1px solid rgba(255,62,116,.25);border-radius:14px;padding:12px 12px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,.6));box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 6px 20px rgba(255,62,116,.08)}
-    .pill .num{font-weight:700;font-size:26px;display:block}
-    .pill .lbl{font-size:12px;color:var(--muted)}
+    header{text-align:center;margin-bottom:15px}
+    .romantic{font-family:"Dancing Script",cursive;font-size:clamp(48px,8vw,84px);line-height:1.1;color:var(--rose2);text-shadow:0 8px 32px var(--shadow);margin-bottom:8px;background:linear-gradient(135deg,var(--rose2),var(--rose),var(--peach));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .subtitle{margin:8px auto 15px;color:var(--muted);font-size:16px;font-weight:300;max-width:500px;line-height:1.5}
 
-    .cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:6px 0 10px}
-    .btn{cursor:pointer;border:0;border-radius:14px;padding:12px 16px;font-weight:700;letter-spacing:.02em;transition:transform .12s ease,filter .2s}
-    .btn:active{transform:translateY(1px) scale(.995)}
-    .btn-primary{background:linear-gradient(90deg,var(--rose),var(--rose2));color:white;box-shadow:0 10px 34px rgba(255,61,110,.25)}
-    .btn-ghost{background:transparent;border:1px solid rgba(255,62,116,.25);color:var(--ink)}
-    .btn-outline{background:transparent;border:1px solid var(--rose2);color:var(--ink)}
+    .details{display:grid;gap:12px;margin:20px auto 16px;text-align:center;max-width:600px}
+    .detail-item{background:rgba(255,255,255,.7);border:1px solid rgba(255,107,157,.2);border-radius:16px;padding:16px 20px;backdrop-filter:blur(5px)}
+    .detail-item strong{color:#7d2a43;font-weight:600}
+    .detail-icon{font-size:18px;margin-right:8px}
 
-    .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,62,116,.25),transparent);margin:18px 0}
+    .countdown{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin:25px auto;max-width:400px}
+    .pill{border:2px solid rgba(255,107,157,.3);border-radius:18px;padding:16px 12px;text-align:center;background:linear-gradient(135deg,rgba(255,255,255,.9),rgba(255,250,252,.8));box-shadow:inset 0 2px 0 rgba(255,255,255,.7),0 8px 25px var(--shadow);transition:transform .3s ease}
+    .pill:hover{transform:translateY(-2px)}
+    .pill .num{font-weight:700;font-size:28px;display:block;color:var(--rose2)}
+    .pill .lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
 
-    .secret{display:grid;gap:12px;margin-top:8px}
+    .cta{display:flex;flex-wrap:wrap;gap:15px;justify-content:center;margin:25px 0 15px}
+    .btn{cursor:pointer;border:0;border-radius:18px;padding:14px 24px;font-weight:600;letter-spacing:.03em;transition:all .3s cubic-bezier(.4,0,.2,1);font-family:inherit;font-size:15px;position:relative;overflow:hidden}
+    .btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.3),transparent);opacity:0;transition:opacity .3s ease}
+    .btn:hover::before{opacity:1}
+    .btn:active{transform:translateY(1px) scale(.98)}
+    .btn-primary{background:linear-gradient(135deg,var(--rose),var(--rose2));color:white;box-shadow:0 12px 40px var(--shadow);border:2px solid transparent}
+    .btn-primary:hover{box-shadow:0 15px 50px var(--shadow);transform:translateY(-2px)}
+    .btn-ghost{background:rgba(255,255,255,.8);border:2px solid rgba(255,107,157,.3);color:var(--ink);backdrop-filter:blur(5px)}
+    .btn-ghost:hover{background:rgba(255,255,255,.95);border-color:var(--rose)}
+    .btn-outline{background:transparent;border:2px solid var(--rose);color:var(--rose)}
+    .btn-outline:hover{background:var(--rose);color:white}
+
+    .divider{height:2px;background:linear-gradient(90deg,transparent,var(--glow),transparent);margin:25px 0;border-radius:1px}
+
+    .secret{display:grid;gap:16px;margin-top:12px;animation:fadeInUp .8s ease-out}
     .secret[hidden]{display:none}
-    .grid{display:grid;gap:12px;grid-template-columns:1fr}
-    @media (min-width:820px){.grid{grid-template-columns:1.1fr .9fr}}
+    .grid{display:grid;gap:16px;grid-template-columns:1fr}
+    @media (min-width:850px){.grid{grid-template-columns:1.2fr 1fr}}
 
-    .panel{border:1px solid rgba(255,62,116,.2);border-radius:18px;padding:16px;background:rgba(255,255,255,.78);box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
-    .panel h3{margin:0 0 10px;font-weight:700;color:#7d2a43}
-    .panel ul{margin:0;padding-left:18px}
+    @keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-    .qrbox{display:grid;place-items:center;border:1px dashed rgba(255,62,116,.35);border-radius:14px;padding:16px;background:rgba(255,255,255,.6)}
-    .qrbox img{max-width:180px;border-radius:10px}
-    .small{font-size:12px;color:var(--muted);text-align:center}
+    .panel{border:2px solid rgba(255,107,157,.25);border-radius:22px;padding:20px;background:linear-gradient(135deg,rgba(255,255,255,.85),rgba(255,250,252,.75));box-shadow:inset 0 2px 0 rgba(255,255,255,.8),0 8px 25px var(--shadow);backdrop-filter:blur(8px)}
+    .panel h3{margin:0 0 15px;font-weight:700;color:#7d2a43;font-size:18px;display:flex;align-items:center}
+    .panel h3::before{content:'✨';margin-right:8px;font-size:16px}
+    .panel ul{margin:0;padding-left:20px;line-height:1.6}
+    .panel li{margin-bottom:6px;color:var(--ink)}
 
-    footer{margin-top:16px;text-align:center;color:var(--muted);font-size:12px}
+    .qrbox{display:grid;place-items:center;border:2px dashed rgba(255,107,157,.4);border-radius:18px;padding:20px;background:rgba(255,255,255,.8);backdrop-filter:blur(5px)}
+    .qrbox img{max-width:200px;border-radius:12px;box-shadow:0 4px 15px var(--shadow)}
+    .small{font-size:13px;color:var(--muted);text-align:center;line-height:1.4}
+
+    .link-actions{display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+
+    footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px;font-weight:300}
+    .signature{font-family:"Dancing Script",cursive;font-size:18px;color:var(--rose);margin-top:8px;font-weight:600}
 
     /* Confetti hearts */
-    #confetti{position:fixed;inset:0;pointer-events:none;z-index:2}
+    #confetti{position:fixed;inset:0;pointer-events:none;z-index:10}
+
+    /* Toast styles */
+    .toast{position:fixed;left:50%;top:30px;transform:translateX(-50%);background:linear-gradient(135deg,var(--rose2),var(--rose));color:#fff;padding:12px 20px;border:2px solid rgba(255,255,255,.3);border-radius:16px;z-index:9999;backdrop-filter:blur(10px);box-shadow:0 8px 32px var(--shadow);animation:toastIn .5s ease-out}
+    @keyframes toastIn{from{opacity:0;transform:translateX(-50%) translateY(-20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+    /* Responsive */
+    @media (max-width:768px){
+      .card{padding:30px 25px 35px}
+      .countdown{grid-template-columns:repeat(2,1fr);gap:12px}
+      .cta{gap:12px}
+      .btn{padding:12px 20px;font-size:14px}
+    }
   </style>
 </head>
 <body>
@@ -66,14 +106,27 @@
   <div class="wrap">
     <div class="card">
       <div class="ribbon" aria-hidden="true"></div>
+      <div class="sparkles">
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+      </div>
+      
       <header>
-        <div class="romantic">Nosso Almoço Romântico</div>
-        <div class="subtitle">Um convite com carinho para um almoço.</div>
+        <div class="romantic">Nosso Almoço dos Sonhos</div>
+        <div class="subtitle">Um convite especial preparado com todo carinho do meu coração para você, minha princesa ✨</div>
       </header>
 
       <section class="details">
-        <div><strong id="whenText">Sábado, 13/09/2025 • 12:30</strong></div>
-        <div>Local: <strong id="whereText">Minha casa (coordenadas confidenciais 😎)</strong></div>
+        <div class="detail-item">
+          <span class="detail-icon">📅</span>
+          <strong id="whenText">Sábado, 13/09/2025 • 12:30</strong>
+        </div>
+        <div class="detail-item">
+          <span class="detail-icon">📍</span>
+          Local: <strong id="whereText">Nossa casa do amor (coordenadas do coração 💕)</strong>
+        </div>
       </section>
 
       <section class="countdown" id="countdown">
@@ -84,9 +137,9 @@
       </section>
 
       <div class="cta">
-        <button class="btn btn-primary" id="btnAccept">Quero ir 💖</button>
-        <button class="btn btn-ghost" id="btnMaybe">Talvez depois</button>
-        <button class="btn btn-outline" id="btnICS">Adicionar ao calendário</button>
+        <button class="btn btn-primary" id="btnAccept">Aceito com amor! 💖</button>
+        <button class="btn btn-ghost" id="btnMaybe">Preciso pensar 🤔</button>
+        <button class="btn btn-outline" id="btnICS">📅 Salvar na agenda</button>
       </div>
 
       <div class="divider"></div>
@@ -94,24 +147,29 @@
       <section class="secret" id="secret" hidden>
         <div class="grid">
           <div class="panel">
-            <h3>Menu do dia</h3>
+            <h3>Menu Especial da Casa</h3>
             <ul id="menuList"></ul>
           </div>
           <div class="panel">
-            <h3>Acesso</h3>
+            <h3>Compartilhar Convite</h3>
             <div class="qrbox">
-              <img id="qrImg" alt="QR Code do convite" />
+              <img id="qrImg" alt="QR Code do nosso convite especial" />
             </div>
-            <div class="small" style="margin-top:8px">Escaneie para abrir este convite no celular</div>
-            <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
-              <a id="privateLink" class="btn btn-ghost" href="#" target="_blank" rel="noreferrer noopener">Abrir link</a>
-              <button id="btnCopy" class="btn btn-ghost">Copiar link</button>
+            <div class="small" style="margin-top:12px">
+              Escaneie para abrir este convite romântico no celular
+            </div>
+            <div class="link-actions">
+              <a id="privateLink" class="btn btn-ghost" href="#" target="_blank" rel="noreferrer noopener">🔗 Abrir link</a>
+              <button id="btnCopy" class="btn btn-ghost">📋 Copiar</button>
             </div>
           </div>
         </div>
       </section>
 
-      <footer>Com amor, de mim para você. 💐</footer>
+      <footer>
+        <div>Preparado com muito carinho e amor infinito</div>
+        <div class="signature">Seu namorado apaixonado 💐</div>
+      </footer>
     </div>
   </div>
 
@@ -120,19 +178,20 @@
   <script>
     // ===== CONFIGURAÇÃO DO CONVITE =====
     const INVITE = {
-      title: 'Convite almoço',
-      description: 'Missão especial: um almoço simples e cheio de carinho.✨',
+      title: 'Nosso Almoço',
+      description: 'Demorou, mas chegou. Um encontro simples, feito com carinho, pra celebrar nosso amor e te apresentar a quem é importante pra mim. 💕✨',
       date: '2025-09-13',       // AAAA-MM-DD
       time: '12:30',            // HH:MM (America/Recife -03:00)
       tzOffset: '-03:00',
-      location: 'Minha casa (coordenadas confidenciais 😎)',
+      location: 'Minha casa (coordenadas do coração 💕)',
       link: 'https://servicenuv-ai.github.io/invite-love/',
-      durationMins: 120,
+      durationMins: 180,
       menu: [
-        'Entrada: Petiscos',
-        'Principal: Strogonoff de frango & Lasanha',
-        'Bebida: Suco de uva/ frutas',
-        'Sobremesa: Sorvete e Bolo'
+        '🥗 Entrada: Petiscos',
+        '🍖 Principal: Strogonoff de frango & Lasanha',
+        '🥤 Bebidas: Suco natural, refrigerantes & Água com gás',
+        '🍰 Sobremesa: Sorvete e bolo',
+        '☕ Finalização: Café da tarde'
       ]
     };
     // ====================================
@@ -154,9 +213,13 @@
     document.getElementById('whenText').textContent = fmtHuman(start);
     document.getElementById('whereText').textContent = INVITE.location;
     const ul = document.getElementById('menuList'); ul.innerHTML = '';
-    for(const item of INVITE.menu){ const li = document.createElement('li'); li.textContent=item; ul.appendChild(li); }
+    for(const item of INVITE.menu){ 
+      const li = document.createElement('li'); 
+      li.textContent=item; 
+      ul.appendChild(li); 
+    }
 
-    // Countdown
+    // Countdown atualizado
     const dd=document.getElementById('dd'), hh=document.getElementById('hh'), mm=document.getElementById('mm'), ss=document.getElementById('ss');
     function tick(){
       const now = new Date();
@@ -169,27 +232,38 @@
     }
     tick(); setInterval(tick,1000);
 
-    // QR Code
+    // QR Code melhorado
     const qrImg = document.getElementById('qrImg');
     const dataForQR = encodeURIComponent(INVITE.link);
-    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${dataForQR}`;
+    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&format=png&margin=10&color=7d2a43&bgcolor=fff8fa&data=${dataForQR}`;
     document.getElementById('privateLink').href = INVITE.link;
 
-    // Copiar link
+    // Copiar link melhorado
     document.getElementById('btnCopy').addEventListener('click', async () => {
-      try{ await navigator.clipboard.writeText(INVITE.link); toast('Link copiado!'); }catch(e){ toast('Não foi possível copiar 😅'); }
+      try{ 
+        await navigator.clipboard.writeText(INVITE.link); 
+        toast('Link copiado com sucesso! 💕'); 
+      }catch(e){ 
+        toast('Ops! Não foi possível copiar 😅'); 
+      }
     });
 
-    // Botões de ação
+    // Botões de ação melhorados
     const secret = document.getElementById('secret');
-    document.getElementById('btnAccept').addEventListener('click', ()=>{ secret.hidden=false; heartsBurst(); toast('Te esperando com carinho 💖'); });
-    document.getElementById('btnMaybe').addEventListener('click', ()=>{ toast('Sem pressa — estarei aqui ✨'); });
+    document.getElementById('btnAccept').addEventListener('click', ()=>{ 
+      secret.hidden=false; 
+      heartsBurst(); 
+      toast('Mal posso esperar para te ver, meu amor! 💖✨'); 
+    });
+    document.getElementById('btnMaybe').addEventListener('click', ()=>{ 
+      toast('Sem pressa, princesa... estarei aqui esperando com carinho 💫'); 
+    });
 
-    // Adicionar ao calendário (gera ICS)
+    // Adicionar ao calendário (gera ICS melhorado)
     document.getElementById('btnICS').addEventListener('click', ()=>{
       const ics = makeICS({
         title: INVITE.title,
-        description: INVITE.description + `\nLink: ${INVITE.link}`,
+        description: INVITE.description + `\n\nLink do convite: ${INVITE.link}\n\nUm almoço especial preparado com amor! 💕`,
         location: INVITE.location,
         start,
         end
@@ -197,8 +271,9 @@
       const blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = 'almoco-romantico.ics';
+      a.download = 'nosso-almoco-dos-sonhos.ics';
       document.body.appendChild(a); a.click(); a.remove();
+      toast('Evento salvo na agenda! 📅💕');
     });
 
     function dtToICS(d){
@@ -210,11 +285,11 @@
       return [
         'BEGIN:VCALENDAR',
         'VERSION:2.0',
-        'PRODID:-//Convite Romantico//PT-BR//',
+        'PRODID:-//Convite Romantico Especial//PT-BR//',
         'CALSCALE:GREGORIAN',
         'METHOD:PUBLISH',
         'BEGIN:VEVENT',
-        `UID:${crypto.randomUUID()}@convite-romantico`,
+        `UID:${crypto.randomUUID()}@nosso-almoco-dos-sonhos`,
         `DTSTAMP:${dtstamp}`,
         `DTSTART:${dtToICS(start)}`,
         `DTEND:${dtToICS(end)}`,
@@ -227,35 +302,117 @@
     }
     function escapeICS(s){ return String(s).replace(/[\\,;\n]/g, m=> ({'\\':'\\\\',',':'\\,',';':'\\;','\n':'\\n'}[m]) ); }
 
-    // Toast minimalista
+    // Toast melhorado
     function toast(msg){
       const t=document.createElement('div');
+      t.className = 'toast';
       t.textContent=msg; 
-      t.style.cssText='position:fixed;left:50%;top:24px;transform:translateX(-50%);background:rgba(80,20,35,.85);color:#fff;padding:10px 14px;border:1px solid rgba(255,255,255,.2);border-radius:12px;z-index:9999;backdrop-filter:blur(6px)';
-      document.body.appendChild(t); setTimeout(()=>t.remove(), 2200);
+      document.body.appendChild(t); 
+      setTimeout(()=>{
+        t.style.animation = 'toastIn .5s ease-out reverse';
+        setTimeout(()=>t.remove(), 500);
+      }, 3000);
     }
 
-    // Fundo de corações suaves
+    // Fundo de corações românticos melhorado
     ;(function(){
       const c=document.getElementById('hearts'); const ctx=c.getContext('2d');
-      let w,h, DPR=window.devicePixelRatio||1; let arr=[]; const COUNT=80;
+      let w,h, DPR=window.devicePixelRatio||1; let arr=[]; const COUNT=100;
       function resize(){ w=window.innerWidth; h=window.innerHeight; c.width=w*DPR; c.height=h*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); }
-      function heartPath(ctx,size){ ctx.beginPath(); const s=size; ctx.moveTo(0,-s/6); ctx.bezierCurveTo(s/2,-s*0.9, s*1.3,-s*0.1, 0,s); ctx.bezierCurveTo(-s*1.3,-s*0.1, -s/2,-s*0.9, 0,-s/6); ctx.closePath(); }
-      function spawn(){ return {x:Math.random()*w, y:h+Math.random()*h, vy:-(.3+Math.random()*0.6), vx:(Math.random()-.5)*.2, size:10+Math.random()*18, a:.12+.12*Math.random(), r:Math.random()*Math.PI}; }
+      function heartPath(ctx,size){ 
+        ctx.beginPath(); 
+        const s=size; 
+        ctx.moveTo(0,-s/4); 
+        ctx.bezierCurveTo(s/2,-s*0.95, s*1.4,-s*0.1, 0,s*0.9); 
+        ctx.bezierCurveTo(-s*1.4,-s*0.1, -s/2,-s*0.95, 0,-s/4); 
+        ctx.closePath(); 
+      }
+      function spawn(){ 
+        return {
+          x:Math.random()*w, 
+          y:h+Math.random()*h, 
+          vy:-(.2+Math.random()*0.4), 
+          vx:(Math.random()-.5)*.15, 
+          size:8+Math.random()*20, 
+          a:.08+.15*Math.random(), 
+          r:Math.random()*Math.PI,
+          pulse: Math.random()*Math.PI*2
+        }; 
+      }
       function init(){ arr=Array.from({length:COUNT},spawn); }
-      function step(){ ctx.clearRect(0,0,w,h); for(const p of arr){ p.x+=p.vx; p.y+=p.vy; p.r+=0.01; if(p.y<-30) Object.assign(p, spawn(), {y:h+20}); ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r); ctx.globalAlpha=p.a; const grad=ctx.createLinearGradient(-p.size, -p.size, p.size, p.size); grad.addColorStop(0,'#ff9db8'); grad.addColorStop(1,'#ff5a86'); ctx.fillStyle=grad; heartPath(ctx,p.size); ctx.fill(); ctx.restore(); } requestAnimationFrame(step); }
+      function step(){ 
+        ctx.clearRect(0,0,w,h); 
+        for(const p of arr){ 
+          p.x+=p.vx; p.y+=p.vy; p.r+=0.008; p.pulse+=0.05;
+          if(p.y<-50) Object.assign(p, spawn(), {y:h+30}); 
+          ctx.save(); 
+          ctx.translate(p.x,p.y); 
+          ctx.rotate(p.r); 
+          ctx.globalAlpha=p.a * (0.7 + 0.3 * Math.sin(p.pulse)); 
+          const grad=ctx.createLinearGradient(-p.size, -p.size, p.size, p.size); 
+          grad.addColorStop(0,'#ff9db8'); 
+          grad.addColorStop(0.5,'#ff6b9d');
+          grad.addColorStop(1,'#ff1744'); 
+          ctx.fillStyle=grad; 
+          heartPath(ctx,p.size); 
+          ctx.fill(); 
+          ctx.restore(); 
+        } 
+        requestAnimationFrame(step); 
+      }
       resize(); init(); step(); window.addEventListener('resize', resize);
     })();
 
-    // Explosão de corações (confetti) ao aceitar
+    // Explosão de corações melhorada
     function heartsBurst(){
       const c=document.getElementById('confetti'); const ctx=c.getContext('2d');
-      const DPR=window.devicePixelRatio||1; let w=window.innerWidth, h=window.innerHeight; c.width=w*DPR; c.height=h*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
-      const N=160; const parts=Array.from({length:N},()=>({x:w/2, y:h/2, vx:(Math.random()-0.5)*6, vy:(Math.random()-1.2)*8, g:0.18+Math.random()*0.08, s:6+Math.random()*10, a:1, r:Math.random()*Math.PI}));
-      function heartPath(ctx,size){ ctx.beginPath(); const s=size; ctx.moveTo(0,-s/3); ctx.bezierCurveTo(s/2,-s, s*1.2,-s*0.1, 0,s); ctx.bezierCurveTo(-s*1.2,-s*0.1, -s/2,-s, 0,-s/3); ctx.closePath(); }
-      let t=0; const colors=['#ff7aa2','#ff3d6e','#ffb199','#ff8fb3','#ffcad4'];
-      function frame(){ ctx.clearRect(0,0,w,h); for(const p of parts){ p.vy+=p.g; p.x+=p.vx; p.y+=p.vy; p.a-=0.012; p.r+=0.08; ctx.save(); ctx.globalAlpha=Math.max(0,p.a); ctx.translate(p.x,p.y); ctx.rotate(p.r); ctx.fillStyle=colors[(Math.random()*colors.length)|0]; heartPath(ctx,p.s); ctx.fill(); ctx.restore(); }
-        t++; if(t<180) requestAnimationFrame(frame); else ctx.clearRect(0,0,w,h);
+      const DPR=window.devicePixelRatio||1; let w=window.innerWidth, h=window.innerHeight; 
+      c.width=w*DPR; c.height=h*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+      const N=200; 
+      const parts=Array.from({length:N},()=>({
+        x:w/2 + (Math.random()-0.5)*100, 
+        y:h/2 + (Math.random()-0.5)*100, 
+        vx:(Math.random()-0.5)*8, 
+        vy:(Math.random()-1.5)*10, 
+        g:0.15+Math.random()*0.1, 
+        s:5+Math.random()*12, 
+        a:1, 
+        r:Math.random()*Math.PI,
+        spin: (Math.random()-0.5)*0.2
+      }));
+      
+      function heartPath(ctx,size){ 
+        ctx.beginPath(); 
+        const s=size; 
+        ctx.moveTo(0,-s/3); 
+        ctx.bezierCurveTo(s/2,-s, s*1.2,-s*0.1, 0,s); 
+        ctx.bezierCurveTo(-s*1.2,-s*0.1, -s/2,-s, 0,-s/3); 
+        ctx.closePath(); 
+      }
+      
+      let t=0; 
+      const colors=['#ff6b9d','#ff1744','#ffab91','#ff8fb3','#ffcad4','#ffd700'];
+      
+      function frame(){ 
+        ctx.clearRect(0,0,w,h); 
+        for(const p of parts){ 
+          p.vy+=p.g; 
+          p.x+=p.vx; 
+          p.y+=p.vy; 
+          p.a-=0.008; 
+          p.r+=p.spin; 
+          ctx.save(); 
+          ctx.globalAlpha=Math.max(0,p.a); 
+          ctx.translate(p.x,p.y); 
+          ctx.rotate(p.r); 
+          ctx.fillStyle=colors[(Math.random()*colors.length)|0]; 
+          heartPath(ctx,p.s); 
+          ctx.fill(); 
+          ctx.restore(); 
+        }
+        t++; 
+        if(t<250) requestAnimationFrame(frame); 
+        else ctx.clearRect(0,0,w,h);
       }
       frame();
     }
