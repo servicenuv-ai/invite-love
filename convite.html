@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Convite Futurista — Almoço Especial</title>
+  <!-- 
+    ⚙️ Como editar rapidamente:
+    1) Procure a constante INVITE abaixo (em <script>) e ajuste:
+       - date: "2025-08-30"  (AAAA-MM-DD)
+       - time: "12:00"       (HH:MM no seu fuso)
+       - location: "Minha casa" (ou endereço)
+       - link: URL privada/com mensagem
+       - title/description/menu conforme seu gosto
+    2) Baixe este arquivo como convite.html e abra no celular ou publique no GitHub Pages/Netlify.
+    3) Botões: "Aceitar missão" revela detalhes + confete. "Adicionar ao calendário" gera um .ics.
+    4) QR Code usa uma API pública de demonstração; troque se quiser.
+  -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0a0f1a; --bg2:#0f1626; --neon:#00e5ff; --neon2:#a855f7; --ink:#e5f4ff; --muted:#a0b3c5; --accent:#22e1ff;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(1000px 500px at 20% -10%,#11213b 0%,transparent 60%),radial-gradient(800px 400px at 120% 10%,#1a0f2e 0%,transparent 60%),linear-gradient(180deg,var(--bg),var(--bg2));color:var(--ink);overflow:hidden}
+    a{color:var(--accent);text-decoration:none}
+
+    /* Starfield canvas */
+    #stars{position:fixed;inset:0;z-index:0}
+
+    .wrap{position:relative;z-index:1;min-height:100dvh;display:grid;place-items:center;padding:24px}
+    .card{width:min(880px,95vw);backdrop-filter:blur(8px);background:rgba(8,14,26,.5);border:1px solid rgba(255,255,255,.08);border-radius:24px;box-shadow:0 0 0 1px rgba(34,225,255,.15),0 20px 80px rgba(0,0,0,.5);padding:28px 28px 36px;position:relative;overflow:hidden}
+    .card::before{content:"";position:absolute;inset:-2px;z-index:0;background:conic-gradient(from 90deg at 50% 50%,var(--neon),var(--neon2),#ff77e9,#00ffa3,var(--neon));filter:blur(18px);opacity:.25;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:2px;border-radius:24px}
+
+    header{position:relative;z-index:1;text-align:center;margin-bottom:6px}
+    .glitch{font-family:Orbitron,Inter,system-ui,sans-serif;font-size:clamp(26px,5vw,44px);font-weight:800;letter-spacing:.06em;position:relative;display:inline-block;text-shadow:0 0 18px rgba(34,225,255,.5)}
+    .glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;top:0;mix-blend-mode:screen}
+    .glitch::before{transform:translate(1px,0);color:#00fff0;filter:drop-shadow(0 0 8px #00e5ff80)}
+    .glitch::after{transform:translate(-1px,0);color:#ff66ff;filter:drop-shadow(0 0 8px #ff66ff80)}
+
+    .subtitle{margin:6px auto 14px;color:var(--muted);font-size:14px}
+
+    .details{display:grid;gap:8px;margin:18px auto 16px;text-align:center}
+    .details strong{color:#cfe8ff}
+
+    .countdown{display:flex;justify-content:center;gap:14px;margin:12px 0 22px}
+    .pill{min-width:72px;border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:10px 12px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+    .pill .num{font-family:Orbitron,sans-serif;font-size:24px;display:block}
+    .pill .lbl{font-size:12px;color:var(--muted)}
+
+    .cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:6px 0 10px}
+    .btn{cursor:pointer;border:0;border-radius:12px;padding:12px 16px;font-weight:700;letter-spacing:.02em;transition:transform .12s ease,filter .2s}
+    .btn:active{transform:translateY(1px) scale(.995)}
+    .btn-primary{background:linear-gradient(90deg,var(--neon),#7c3aed);color:#00131a;box-shadow:0 8px 30px rgba(34,225,255,.3)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.2);color:#e6faff}
+    .btn-outline{background:transparent;border:1px solid var(--neon);color:var(--ink)}
+
+    .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);margin:18px 0}
+
+    .secret{display:grid;gap:12px;margin-top:8px}
+    .secret[hidden]{display:none}
+    .grid{display:grid;gap:12px;grid-template-columns:1fr;}
+    @media (min-width:820px){.grid{grid-template-columns:1.1fr .9fr}}
+
+    .panel{border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px;background:rgba(12,18,30,.5)}
+    .panel h3{margin:0 0 8px;font-family:Orbitron,sans-serif;font-size:16px;color:#cfe8ff}
+    .panel ul{margin:0;padding-left:18px}
+
+    .qrbox{display:grid;place-items:center;border:1px dashed rgba(255,255,255,.2);border-radius:14px;padding:16px}
+    .qrbox img{max-width:180px;border-radius:8px}
+    .small{font-size:12px;color:var(--muted);text-align:center}
+
+    footer{margin-top:14px;text-align:center;color:var(--muted);font-size:12px}
+
+    /* Confetti canvas */
+    #confetti{position:fixed;inset:0;pointer-events:none;z-index:2}
+  </style>
+</head>
+<body>
+  <canvas id="stars"></canvas>
+  <div class="wrap">
+    <div class="card">
+      <header>
+        <div class="glitch" data-text="TRANSMISSÃO DO FUTURO">TRANSMISSÃO DO FUTURO</div>
+        <div class="subtitle">Convite especial para um almoço em casa — com um toque sci‑fi ✨</div>
+      </header>
+
+      <section class="details">
+        <div><strong id="whenText">Sábado, 30/08/2025 • 12:00</strong></div>
+        <div>Local: <strong id="whereText">Minha casa (coordenadas confidenciais 😎)</strong></div>
+      </section>
+
+      <section class="countdown" id="countdown">
+        <div class="pill"><span class="num" id="dd">00</span><span class="lbl">dias</span></div>
+        <div class="pill"><span class="num" id="hh">00</span><span class="lbl">horas</span></div>
+        <div class="pill"><span class="num" id="mm">00</span><span class="lbl">min</span></div>
+        <div class="pill"><span class="num" id="ss">00</span><span class="lbl">seg</span></div>
+      </section>
+
+      <div class="cta">
+        <button class="btn btn-primary" id="btnAccept">Aceitar missão</button>
+        <button class="btn btn-ghost" id="btnMaybe">Talvez depois</button>
+        <button class="btn btn-outline" id="btnICS">Adicionar ao calendário</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <section class="secret" id="secret" hidden>
+        <div class="grid">
+          <div class="panel">
+            <h3>Menu</h3>
+            <ul id="menuList">
+              <li>Entrada: Bruschettas de tomate & manjericão</li>
+              <li>Principal: Pasta ao molho pesto com frango grelhado</li>
+              <li>Bebida: Suco de uva gelado / vinho leve</li>
+              <li>Sobremesa: Mousse de chocolate</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Acesso</h3>
+            <div class="qrbox">
+              <img id="qrImg" alt="QR Code do convite" />
+            </div>
+            <div class="small" style="margin-top:8px">Escaneie para abrir este convite no celular</div>
+            <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
+              <a id="privateLink" class="btn btn-ghost" href="#" target="_blank" rel="noreferrer noopener">Abrir link secreto</a>
+              <button id="btnCopy" class="btn btn-ghost">Copiar link</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>Se você aceitar, a linha do tempo será atualizada automaticamente. 🫶</footer>
+    </div>
+  </div>
+
+  <canvas id="confetti"></canvas>
+
+  <script>
+    // ========= CONFIGURÁVEL =========
+    const INVITE = {
+      title: 'Convite para almoço',
+      description: 'Missão especial: um almoço simples e cheio de carinho, com estética sci‑fi ✨',
+      date: '2025-09-13',        // AAAA-MM-DD
+      time: '12:30',             // HH:MM (America/Recife -03:00)
+      tzOffset: '-03:00',        // ajuste se necessário
+      location: 'Minha casa (coordenadas confidenciais 😎)',
+      link: 'https://example.com/almoco-futurista',
+      durationMins: 120,         // duração para o .ics
+      menu: [
+        'Entrada: Bruschettas de tomate & manjericão',
+        'Principal: Pasta ao molho pesto com frango grelhado',
+        'Bebida: Suco de uva gelado / vinho leve',
+        'Sobremesa: Mousse de chocolate'
+      ]
+    };
+    // =================================
+
+    // Utilidades de data
+    function parseLocalISO(dateStr, timeStr, tz) {
+      // Constrói "YYYY-MM-DDTHH:MM:SS-03:00" e deixa o navegador lidar
+      return new Date(`${dateStr}T${timeStr}:00${tz}`);
+    }
+    function pad(n){return String(n).padStart(2,'0')}
+    function fmtHuman(d){
+      const dias = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+      const meses = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+      return `${dias[d.getDay()]}, ${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} • ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    const start = parseLocalISO(INVITE.date, INVITE.time, INVITE.tzOffset);
+    const end   = new Date(start.getTime() + INVITE.durationMins*60000);
+
+    // Preenche textos
+    document.getElementById('whenText').textContent = fmtHuman(start);
+    document.getElementById('whereText').textContent = INVITE.location;
+    const ul = document.getElementById('menuList'); ul.innerHTML = '';
+    for(const item of INVITE.menu){ const li = document.createElement('li'); li.textContent=item; ul.appendChild(li); }
+
+    // Countdown
+    const dd=document.getElementById('dd'), hh=document.getElementById('hh'), mm=document.getElementById('mm'), ss=document.getElementById('ss');
+    function tick(){
+      const now = new Date();
+      let diff = Math.max(0, start - now);
+      const d = Math.floor(diff/86400000); diff-=d*86400000;
+      const h = Math.floor(diff/3600000);  diff-=h*3600000;
+      const m = Math.floor(diff/60000);    diff-=m*60000;
+      const s = Math.floor(diff/1000);
+      dd.textContent=pad(d); hh.textContent=pad(h); mm.textContent=pad(m); ss.textContent=pad(s);
+    }
+    tick(); setInterval(tick,1000);
+
+    // QR Code (API pública para demonstração)
+    const qrImg = document.getElementById('qrImg');
+    const dataForQR = encodeURIComponent(INVITE.link);
+    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${dataForQR}`;
+    document.getElementById('privateLink').href = INVITE.link;
+
+    // Copiar link
+    document.getElementById('btnCopy').addEventListener('click', async () => {
+      try{ await navigator.clipboard.writeText(INVITE.link); toast('Link copiado!'); }catch(e){ toast('Não foi possível copiar 😅'); }
+    });
+
+    // Aceitar / Talvez depois
+    const secret = document.getElementById('secret');
+    document.getElementById('btnAccept').addEventListener('click', ()=>{ secret.hidden=false; boom(); toast('Missão aceita! 🫶'); });
+    document.getElementById('btnMaybe').addEventListener('click', ()=>{ toast('Sem pressa — a linha do tempo aguarda sua decisão.'); });
+
+    // Adicionar ao calendário (gera ICS)
+    document.getElementById('btnICS').addEventListener('click', ()=>{
+      const ics = makeICS({
+        title: INVITE.title,
+        description: INVITE.description + `\nLink: ${INVITE.link}`,
+        location: INVITE.location,
+        start,
+        end
+      });
+      const blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'convite-almoco-futurista.ics';
+      document.body.appendChild(a); a.click(); a.remove();
+    });
+
+    function dtToICS(d){
+      // Converte para UTC no formato YYYYMMDDTHHMMSSZ
+      const y=d.getUTCFullYear(), m=pad(d.getUTCMonth()+1), da=pad(d.getUTCDate()), h=pad(d.getUTCHours()), mi=pad(d.getUTCMinutes()), s=pad(d.getUTCSeconds());
+      return `${y}${m}${da}T${h}${mi}${s}Z`;
+    }
+    function makeICS({title,description,location,start,end}){
+      const dtstamp = dtToICS(new Date());
+      return [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Convite Futurista//PT-BR//',
+        'CALSCALE:GREGORIAN',
+        'METHOD:PUBLISH',
+        'BEGIN:VEVENT',
+        `UID:${crypto.randomUUID()}@convite-futurista`,
+        `DTSTAMP:${dtstamp}`,
+        `DTSTART:${dtToICS(start)}`,
+        `DTEND:${dtToICS(end)}`,
+        `SUMMARY:${escapeICS(title)}`,
+        `DESCRIPTION:${escapeICS(description)}`,
+        `LOCATION:${escapeICS(location)}`,
+        'END:VEVENT',
+        'END:VCALENDAR' 
+      ].join('\r\n');
+    }
+    function escapeICS(s){ return String(s).replace(/[\\,;\n]/g, m=> ({'\\':'\\\\',',':'\\,',';':'\\;','\n':'\\n'}[m]) ); }
+
+    // Toast minimalista
+    function toast(msg){
+      const t=document.createElement('div');
+      t.textContent=msg; 
+      t.style.cssText='position:fixed;left:50%;top:24px;transform:translateX(-50%);background:rgba(0,0,0,.7);color:#eaf7ff;padding:10px 14px;border:1px solid rgba(255,255,255,.2);border-radius:10px;z-index:9999;backdrop-filter:blur(6px)';
+      document.body.appendChild(t); setTimeout(()=>t.remove(), 2200);
+    }
+
+    // Starfield animado
+    (function(){
+      const c=document.getElementById('stars'); const ctx=c.getContext('2d');
+      let w,h; const DPR=window.devicePixelRatio||1; const STARS=140; const arr=[];
+      function resize(){ w=window.innerWidth; h=window.innerHeight; c.width=w*DPR; c.height=h*DPR; ctx.scale(DPR,DPR); }
+      function spawn(){ return {x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.4+0.2, s:Math.random()*0.6+0.2}; }
+      function init(){ for(let i=0;i<STARS;i++) arr.push(spawn()); }
+      function step(){ ctx.clearRect(0,0,w,h); ctx.fillStyle='rgba(255,255,255,.85)'; for(const s of arr){ s.y+=s.s; if(s.y>h) {s.x=Math.random()*w; s.y=-5;} ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill(); }
+        requestAnimationFrame(step); }
+      resize(); init(); step(); window.addEventListener('resize', resize);
+    })();
+
+    // Confetti simples
+    function boom(){
+      const c=document.getElementById('confetti'); const ctx=c.getContext('2d');
+      const DPR=window.devicePixelRatio||1; let w=window.innerWidth, h=window.innerHeight; c.width=w*DPR; c.height=h*DPR; ctx.scale(DPR,DPR);
+      const parts=Array.from({length:160},()=>({
+        x:w/2, y:h/2, vx:(Math.random()-0.5)*6, vy:(Math.random()-1.2)*8, g:0.15+Math.random()*0.1, s:2+Math.random()*4, a:1, r:Math.random()*Math.PI
+      }));
+      let t=0; const colors=['#00e5ff','#7c3aed','#ff77e9','#00ffa3','#eaff6b'];
+      function frame(){
+        ctx.clearRect(0,0,w,h);
+        for(const p of parts){
+          p.vy+=p.g; p.x+=p.vx; p.y+=p.vy; p.a-=0.01; p.r+=0.1; if(p.a<=0) p.a=0;
+          ctx.save(); ctx.globalAlpha=p.a; ctx.translate(p.x,p.y); ctx.rotate(p.r);
+          ctx.fillStyle=colors[(Math.random()*colors.length)|0];
+          ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*2);
+          ctx.restore();
+        }
+        t++; if(t<160) requestAnimationFrame(frame); else ctx.clearRect(0,0,w,h);
+      }
+      frame();
+    }
+  </script>
+</body>
+</html>
