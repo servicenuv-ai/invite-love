@@ -60,6 +60,8 @@
     .btn-ghost:hover{background:rgba(255,255,255,.95);border-color:var(--rose)}
     .btn-outline{background:transparent;border:2px solid var(--rose);color:var(--rose)}
     .btn-outline:hover{background:var(--rose);color:white}
+    .btn-whatsapp{background:linear-gradient(135deg,#25d366,#128c7e);color:white;border:2px solid transparent}
+    .btn-whatsapp:hover{background:linear-gradient(135deg,#128c7e,#075e54);transform:translateY(-2px)}
 
     .divider{height:2px;background:linear-gradient(90deg,transparent,var(--glow),transparent);margin:25px 0;border-radius:1px}
 
@@ -115,7 +117,7 @@
       
       <header>
         <div class="romantic">Nosso Almoço dos Sonhos</div>
-        <div class="subtitle">Um convite especial preparado com todo carinho do meu coração para você, minha princesa ✨</div>
+        <div class="subtitle">Demorou, mas chegou. Um almoço simples, com muito carinho, pra celebrar a gente e te apresentar à uma parte da minha família.  ✨</div>
       </header>
 
       <section class="details">
@@ -140,6 +142,7 @@
         <button class="btn btn-primary" id="btnAccept">Aceito com amor! 💖</button>
         <button class="btn btn-ghost" id="btnMaybe">Preciso pensar 🤔</button>
         <button class="btn btn-outline" id="btnICS">📅 Salvar na agenda</button>
+        <button class="btn btn-whatsapp" id="btnWhatsApp">💚 Enviar no WhatsApp</button>
       </div>
 
       <div class="divider"></div>
@@ -161,6 +164,7 @@
             <div class="link-actions">
               <a id="privateLink" class="btn btn-ghost" href="#" target="_blank" rel="noreferrer noopener">🔗 Abrir link</a>
               <button id="btnCopy" class="btn btn-ghost">📋 Copiar</button>
+              <button id="btnShareWhatsApp" class="btn btn-whatsapp">💚 WhatsApp</button>
             </div>
           </div>
         </div>
@@ -238,6 +242,23 @@
     qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=280x280&format=png&margin=10&color=7d2a43&bgcolor=fff8fa&data=${dataForQR}`;
     document.getElementById('privateLink').href = INVITE.link;
 
+    // Função para criar mensagem do WhatsApp
+    function createWhatsAppMessage() {
+      const dateFormatted = fmtHuman(start);
+      const message = `💕 *${INVITE.title}* 💕
+
+${INVITE.description}
+
+📅 *Quando:* ${dateFormatted}
+📍 *Onde:* ${INVITE.location}
+
+🔗 *Convite completo:* ${INVITE.link}
+
+Te espero com muito carinho! 💖✨`;
+      
+      return encodeURIComponent(message);
+    }
+
     // Copiar link melhorado
     document.getElementById('btnCopy').addEventListener('click', async () => {
       try{ 
@@ -246,6 +267,21 @@
       }catch(e){ 
         toast('Ops! Não foi possível copiar 😅'); 
       }
+    });
+
+    // Botões do WhatsApp
+    document.getElementById('btnWhatsApp').addEventListener('click', () => {
+      const message = createWhatsAppMessage();
+      const whatsappURL = `https://wa.me/?text=${message}`;
+      window.open(whatsappURL, '_blank');
+      toast('Abrindo WhatsApp para compartilhar! 💚');
+    });
+
+    document.getElementById('btnShareWhatsApp').addEventListener('click', () => {
+      const message = createWhatsAppMessage();
+      const whatsappURL = `https://wa.me/?text=${message}`;
+      window.open(whatsappURL, '_blank');
+      toast('Compartilhando no WhatsApp! 💚');
     });
 
     // Botões de ação melhorados
