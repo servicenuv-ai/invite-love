@@ -3,91 +3,76 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Convite Futurista — Almoço Especial</title>
-  <!-- 
-    ⚙️ Como editar rapidamente:
-    1) Procure a constante INVITE abaixo (em <script>) e ajuste:
-       - date: "2025-08-30"  (AAAA-MM-DD)
-       - time: "12:00"       (HH:MM no seu fuso)
-       - location: "Minha casa" (ou endereço)
-       - link: URL privada/com mensagem
-       - title/description/menu conforme seu gosto
-    2) Baixe este arquivo como convite.html e abra no celular ou publique no GitHub Pages/Netlify.
-    3) Botões: "Aceitar missão" revela detalhes + confete. "Adicionar ao calendário" gera um .ics.
-    4) QR Code usa uma API pública de demonstração; troque se quiser.
-  -->
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <title>Nosso Almoço — Convite</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#0a0f1a; --bg2:#0f1626; --neon:#00e5ff; --neon2:#a855f7; --ink:#e5f4ff; --muted:#a0b3c5; --accent:#22e1ff;
+      --bg1:#fff4f8; --bg2:#ffe6ee; --ink:#4a2b36; --muted:#7a5a64; --rose:#ff7aa2; --rose2:#ff3d6e; --peach:#ffb199; --cream:#fff9fb;
     }
     *{box-sizing:border-box}
     html,body{height:100%;margin:0}
-    body{font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:radial-gradient(1000px 500px at 20% -10%,#11213b 0%,transparent 60%),radial-gradient(800px 400px at 120% 10%,#1a0f2e 0%,transparent 60%),linear-gradient(180deg,var(--bg),var(--bg2));color:var(--ink);overflow:hidden}
-    a{color:var(--accent);text-decoration:none}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:radial-gradient(900px 600px at 20% -10%,rgba(255,170,195,.35),transparent 60%),radial-gradient(900px 600px at 120% 10%,rgba(255,210,220,.45),transparent 60%),linear-gradient(180deg,var(--bg1),var(--bg2));overflow:hidden}
+    a{color:var(--rose2);text-decoration:none}
 
-    /* Starfield canvas */
-    #stars{position:fixed;inset:0;z-index:0}
+    /* Hearts background */
+    #hearts{position:fixed;inset:0;z-index:0}
 
     .wrap{position:relative;z-index:1;min-height:100dvh;display:grid;place-items:center;padding:24px}
-    .card{width:min(880px,95vw);backdrop-filter:blur(8px);background:rgba(8,14,26,.5);border:1px solid rgba(255,255,255,.08);border-radius:24px;box-shadow:0 0 0 1px rgba(34,225,255,.15),0 20px 80px rgba(0,0,0,.5);padding:28px 28px 36px;position:relative;overflow:hidden}
-    .card::before{content:"";position:absolute;inset:-2px;z-index:0;background:conic-gradient(from 90deg at 50% 50%,var(--neon),var(--neon2),#ff77e9,#00ffa3,var(--neon));filter:blur(18px);opacity:.25;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;padding:2px;border-radius:24px}
+    .card{width:min(880px,95vw);background:rgba(255,255,255,.7);backdrop-filter:blur(10px);border-radius:28px;border:1px solid rgba(255,80,120,.25);box-shadow:0 15px 80px rgba(255,62,116,.16), inset 0 1px 0 rgba(255,255,255,.6);padding:30px 30px 36px;position:relative;overflow:hidden}
+    .ribbon{position:absolute;inset:auto -60px -60px auto;width:220px;height:220px;background:conic-gradient(from 0deg,var(--rose),var(--rose2),var(--peach),var(--rose));filter:blur(28px);opacity:.25;border-radius:50%}
 
-    header{position:relative;z-index:1;text-align:center;margin-bottom:6px}
-    .glitch{font-family:Orbitron,Inter,system-ui,sans-serif;font-size:clamp(26px,5vw,44px);font-weight:800;letter-spacing:.06em;position:relative;display:inline-block;text-shadow:0 0 18px rgba(34,225,255,.5)}
-    .glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;top:0;mix-blend-mode:screen}
-    .glitch::before{transform:translate(1px,0);color:#00fff0;filter:drop-shadow(0 0 8px #00e5ff80)}
-    .glitch::after{transform:translate(-1px,0);color:#ff66ff;filter:drop-shadow(0 0 8px #ff66ff80)}
+    header{text-align:center;margin-bottom:10px}
+    .romantic{font-family:"Great Vibes",cursive;font-size:clamp(42px,7vw,72px);line-height:1;color:var(--rose2);text-shadow:0 6px 24px rgba(255,61,110,.25)}
+    .subtitle{margin:6px auto 10px;color:var(--muted);font-size:15px}
 
-    .subtitle{margin:6px auto 14px;color:var(--muted);font-size:14px}
+    .details{display:grid;gap:8px;margin:14px auto 12px;text-align:center}
+    .details strong{color:#7d2a43}
 
-    .details{display:grid;gap:8px;margin:18px auto 16px;text-align:center}
-    .details strong{color:#cfe8ff}
-
-    .countdown{display:flex;justify-content:center;gap:14px;margin:12px 0 22px}
-    .pill{min-width:72px;border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:10px 12px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
-    .pill .num{font-family:Orbitron,sans-serif;font-size:24px;display:block}
+    .countdown{display:flex;justify-content:center;gap:12px;margin:12px 0 22px}
+    .pill{min-width:78px;border:1px solid rgba(255,62,116,.25);border-radius:14px;padding:12px 12px;text-align:center;background:linear-gradient(180deg,rgba(255,255,255,.85),rgba(255,255,255,.6));box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 6px 20px rgba(255,62,116,.08)}
+    .pill .num{font-weight:700;font-size:26px;display:block}
     .pill .lbl{font-size:12px;color:var(--muted)}
 
     .cta{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:6px 0 10px}
-    .btn{cursor:pointer;border:0;border-radius:12px;padding:12px 16px;font-weight:700;letter-spacing:.02em;transition:transform .12s ease,filter .2s}
+    .btn{cursor:pointer;border:0;border-radius:14px;padding:12px 16px;font-weight:700;letter-spacing:.02em;transition:transform .12s ease,filter .2s}
     .btn:active{transform:translateY(1px) scale(.995)}
-    .btn-primary{background:linear-gradient(90deg,var(--neon),#7c3aed);color:#00131a;box-shadow:0 8px 30px rgba(34,225,255,.3)}
-    .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.2);color:#e6faff}
-    .btn-outline{background:transparent;border:1px solid var(--neon);color:var(--ink)}
+    .btn-primary{background:linear-gradient(90deg,var(--rose),var(--rose2));color:white;box-shadow:0 10px 34px rgba(255,61,110,.25)}
+    .btn-ghost{background:transparent;border:1px solid rgba(255,62,116,.25);color:var(--ink)}
+    .btn-outline{background:transparent;border:1px solid var(--rose2);color:var(--ink)}
 
-    .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);margin:18px 0}
+    .divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,62,116,.25),transparent);margin:18px 0}
 
     .secret{display:grid;gap:12px;margin-top:8px}
     .secret[hidden]{display:none}
-    .grid{display:grid;gap:12px;grid-template-columns:1fr;}
+    .grid{display:grid;gap:12px;grid-template-columns:1fr}
     @media (min-width:820px){.grid{grid-template-columns:1.1fr .9fr}}
 
-    .panel{border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px;background:rgba(12,18,30,.5)}
-    .panel h3{margin:0 0 8px;font-family:Orbitron,sans-serif;font-size:16px;color:#cfe8ff}
+    .panel{border:1px solid rgba(255,62,116,.2);border-radius:18px;padding:16px;background:rgba(255,255,255,.78);box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+    .panel h3{margin:0 0 10px;font-weight:700;color:#7d2a43}
     .panel ul{margin:0;padding-left:18px}
 
-    .qrbox{display:grid;place-items:center;border:1px dashed rgba(255,255,255,.2);border-radius:14px;padding:16px}
-    .qrbox img{max-width:180px;border-radius:8px}
+    .qrbox{display:grid;place-items:center;border:1px dashed rgba(255,62,116,.35);border-radius:14px;padding:16px;background:rgba(255,255,255,.6)}
+    .qrbox img{max-width:180px;border-radius:10px}
     .small{font-size:12px;color:var(--muted);text-align:center}
 
-    footer{margin-top:14px;text-align:center;color:var(--muted);font-size:12px}
+    footer{margin-top:16px;text-align:center;color:var(--muted);font-size:12px}
 
-    /* Confetti canvas */
+    /* Confetti hearts */
     #confetti{position:fixed;inset:0;pointer-events:none;z-index:2}
   </style>
 </head>
 <body>
-  <canvas id="stars"></canvas>
+  <canvas id="hearts"></canvas>
   <div class="wrap">
     <div class="card">
+      <div class="ribbon" aria-hidden="true"></div>
       <header>
-        <div class="glitch" data-text="TRANSMISSÃO DO FUTURO">TRANSMISSÃO DO FUTURO</div>
-        <div class="subtitle">Convite especial para um almoço em casa — com um toque sci‑fi ✨</div>
+        <div class="romantic">Nosso Almoço Romântico</div>
+        <div class="subtitle">Um convite com carinho para um almoço.</div>
       </header>
 
       <section class="details">
-        <div><strong id="whenText">Sábado, 30/08/2025 • 12:00</strong></div>
+        <div><strong id="whenText">Sábado, 13/09/2025 • 12:30</strong></div>
         <div>Local: <strong id="whereText">Minha casa (coordenadas confidenciais 😎)</strong></div>
       </section>
 
@@ -99,7 +84,7 @@
       </section>
 
       <div class="cta">
-        <button class="btn btn-primary" id="btnAccept">Aceitar missão</button>
+        <button class="btn btn-primary" id="btnAccept">Quero ir 💖</button>
         <button class="btn btn-ghost" id="btnMaybe">Talvez depois</button>
         <button class="btn btn-outline" id="btnICS">Adicionar ao calendário</button>
       </div>
@@ -109,13 +94,8 @@
       <section class="secret" id="secret" hidden>
         <div class="grid">
           <div class="panel">
-            <h3>Menu</h3>
-            <ul id="menuList">
-              <li>Entrada: Bruschettas de tomate & manjericão</li>
-              <li>Principal: Pasta ao molho pesto com frango grelhado</li>
-              <li>Bebida: Suco de uva gelado / vinho leve</li>
-              <li>Sobremesa: Mousse de chocolate</li>
-            </ul>
+            <h3>Menu do dia</h3>
+            <ul id="menuList"></ul>
           </div>
           <div class="panel">
             <h3>Acesso</h3>
@@ -124,48 +104,46 @@
             </div>
             <div class="small" style="margin-top:8px">Escaneie para abrir este convite no celular</div>
             <div style="display:flex;gap:8px;justify-content:center;margin-top:10px">
-              <a id="privateLink" class="btn btn-ghost" href="#" target="_blank" rel="noreferrer noopener">Abrir link secreto</a>
+              <a id="privateLink" class="btn btn-ghost" href="#" target="_blank" rel="noreferrer noopener">Abrir link</a>
               <button id="btnCopy" class="btn btn-ghost">Copiar link</button>
             </div>
           </div>
         </div>
       </section>
 
-      <footer>Se você aceitar, a linha do tempo será atualizada automaticamente. 🫶</footer>
+      <footer>Com amor, de mim para você. 💐</footer>
     </div>
   </div>
 
   <canvas id="confetti"></canvas>
 
   <script>
-    // ========= CONFIGURÁVEL =========
+    // ===== CONFIGURAÇÃO DO CONVITE =====
     const INVITE = {
       title: 'Convite almoço',
-      description: 'Missão especial: um almoço simples e cheio de carinho, com estética sci‑fi ✨',
-      date: '2025-09-13',        // AAAA-MM-DD
-      time: '12h30',             // HH:MM (America/Recife -03:00)
-      tzOffset: '-03:00',        // ajuste se necessário
+      description: 'Missão especial: um almoço simples e cheio de carinho.✨',
+      date: '2025-09-13',       // AAAA-MM-DD
+      time: '12:30',            // HH:MM (America/Recife -03:00)
+      tzOffset: '-03:00',
       location: 'Minha casa (coordenadas confidenciais 😎)',
       link: 'https://servicenuv-ai.github.io/invite-love/',
-      durationMins: 120,         // duração para o .ics
+      durationMins: 120,
       menu: [
-        'Entrada: Bruschettas de tomate & manjericão',
-        'Principal: Pasta ao molho pesto com frango grelhado',
-        'Bebida: Suco de uva gelado / vinho leve',
-        'Sobremesa: Mousse de chocolate'
+        'Entrada: Petiscos',
+        'Principal: Strogonoff de frango & Lasanha',
+        'Bebida: Suco de uva/ frutas',
+        'Sobremesa: Sorvete e Bolo'
       ]
     };
-    // =================================
+    // ====================================
 
     // Utilidades de data
     function parseLocalISO(dateStr, timeStr, tz) {
-      // Constrói "YYYY-MM-DDTHH:MM:SS-03:00" e deixa o navegador lidar
       return new Date(`${dateStr}T${timeStr}:00${tz}`);
     }
     function pad(n){return String(n).padStart(2,'0')}
     function fmtHuman(d){
       const dias = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
-      const meses = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
       return `${dias[d.getDay()]}, ${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} • ${pad(d.getHours())}:${pad(d.getMinutes())}`;
     }
 
@@ -191,7 +169,7 @@
     }
     tick(); setInterval(tick,1000);
 
-    // QR Code (API pública para demonstração)
+    // QR Code
     const qrImg = document.getElementById('qrImg');
     const dataForQR = encodeURIComponent(INVITE.link);
     qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${dataForQR}`;
@@ -202,10 +180,10 @@
       try{ await navigator.clipboard.writeText(INVITE.link); toast('Link copiado!'); }catch(e){ toast('Não foi possível copiar 😅'); }
     });
 
-    // Aceitar / Talvez depois
+    // Botões de ação
     const secret = document.getElementById('secret');
-    document.getElementById('btnAccept').addEventListener('click', ()=>{ secret.hidden=false; boom(); toast('Missão aceita! 🫶'); });
-    document.getElementById('btnMaybe').addEventListener('click', ()=>{ toast('Sem pressa — a linha do tempo aguarda sua decisão.'); });
+    document.getElementById('btnAccept').addEventListener('click', ()=>{ secret.hidden=false; heartsBurst(); toast('Te esperando com carinho 💖'); });
+    document.getElementById('btnMaybe').addEventListener('click', ()=>{ toast('Sem pressa — estarei aqui ✨'); });
 
     // Adicionar ao calendário (gera ICS)
     document.getElementById('btnICS').addEventListener('click', ()=>{
@@ -219,12 +197,11 @@
       const blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = 'convite-almoco-futurista.ics';
+      a.download = 'almoco-romantico.ics';
       document.body.appendChild(a); a.click(); a.remove();
     });
 
     function dtToICS(d){
-      // Converte para UTC no formato YYYYMMDDTHHMMSSZ
       const y=d.getUTCFullYear(), m=pad(d.getUTCMonth()+1), da=pad(d.getUTCDate()), h=pad(d.getUTCHours()), mi=pad(d.getUTCMinutes()), s=pad(d.getUTCSeconds());
       return `${y}${m}${da}T${h}${mi}${s}Z`;
     }
@@ -233,11 +210,11 @@
       return [
         'BEGIN:VCALENDAR',
         'VERSION:2.0',
-        'PRODID:-//Convite Futurista//PT-BR//',
+        'PRODID:-//Convite Romantico//PT-BR//',
         'CALSCALE:GREGORIAN',
         'METHOD:PUBLISH',
         'BEGIN:VEVENT',
-        `UID:${crypto.randomUUID()}@convite-futurista`,
+        `UID:${crypto.randomUUID()}@convite-romantico`,
         `DTSTAMP:${dtstamp}`,
         `DTSTART:${dtToICS(start)}`,
         `DTEND:${dtToICS(end)}`,
@@ -254,40 +231,31 @@
     function toast(msg){
       const t=document.createElement('div');
       t.textContent=msg; 
-      t.style.cssText='position:fixed;left:50%;top:24px;transform:translateX(-50%);background:rgba(0,0,0,.7);color:#eaf7ff;padding:10px 14px;border:1px solid rgba(255,255,255,.2);border-radius:10px;z-index:9999;backdrop-filter:blur(6px)';
+      t.style.cssText='position:fixed;left:50%;top:24px;transform:translateX(-50%);background:rgba(80,20,35,.85);color:#fff;padding:10px 14px;border:1px solid rgba(255,255,255,.2);border-radius:12px;z-index:9999;backdrop-filter:blur(6px)';
       document.body.appendChild(t); setTimeout(()=>t.remove(), 2200);
     }
 
-    // Starfield animado
-    (function(){
-      const c=document.getElementById('stars'); const ctx=c.getContext('2d');
-      let w,h; const DPR=window.devicePixelRatio||1; const STARS=140; const arr=[];
-      function resize(){ w=window.innerWidth; h=window.innerHeight; c.width=w*DPR; c.height=h*DPR; ctx.scale(DPR,DPR); }
-      function spawn(){ return {x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.4+0.2, s:Math.random()*0.6+0.2}; }
-      function init(){ for(let i=0;i<STARS;i++) arr.push(spawn()); }
-      function step(){ ctx.clearRect(0,0,w,h); ctx.fillStyle='rgba(255,255,255,.85)'; for(const s of arr){ s.y+=s.s; if(s.y>h) {s.x=Math.random()*w; s.y=-5;} ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2); ctx.fill(); }
-        requestAnimationFrame(step); }
+    // Fundo de corações suaves
+    ;(function(){
+      const c=document.getElementById('hearts'); const ctx=c.getContext('2d');
+      let w,h, DPR=window.devicePixelRatio||1; let arr=[]; const COUNT=80;
+      function resize(){ w=window.innerWidth; h=window.innerHeight; c.width=w*DPR; c.height=h*DPR; ctx.setTransform(DPR,0,0,DPR,0,0); }
+      function heartPath(ctx,size){ ctx.beginPath(); const s=size; ctx.moveTo(0,-s/6); ctx.bezierCurveTo(s/2,-s*0.9, s*1.3,-s*0.1, 0,s); ctx.bezierCurveTo(-s*1.3,-s*0.1, -s/2,-s*0.9, 0,-s/6); ctx.closePath(); }
+      function spawn(){ return {x:Math.random()*w, y:h+Math.random()*h, vy:-(.3+Math.random()*0.6), vx:(Math.random()-.5)*.2, size:10+Math.random()*18, a:.12+.12*Math.random(), r:Math.random()*Math.PI}; }
+      function init(){ arr=Array.from({length:COUNT},spawn); }
+      function step(){ ctx.clearRect(0,0,w,h); for(const p of arr){ p.x+=p.vx; p.y+=p.vy; p.r+=0.01; if(p.y<-30) Object.assign(p, spawn(), {y:h+20}); ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r); ctx.globalAlpha=p.a; const grad=ctx.createLinearGradient(-p.size, -p.size, p.size, p.size); grad.addColorStop(0,'#ff9db8'); grad.addColorStop(1,'#ff5a86'); ctx.fillStyle=grad; heartPath(ctx,p.size); ctx.fill(); ctx.restore(); } requestAnimationFrame(step); }
       resize(); init(); step(); window.addEventListener('resize', resize);
     })();
 
-    // Confetti simples
-    function boom(){
+    // Explosão de corações (confetti) ao aceitar
+    function heartsBurst(){
       const c=document.getElementById('confetti'); const ctx=c.getContext('2d');
-      const DPR=window.devicePixelRatio||1; let w=window.innerWidth, h=window.innerHeight; c.width=w*DPR; c.height=h*DPR; ctx.scale(DPR,DPR);
-      const parts=Array.from({length:160},()=>({
-        x:w/2, y:h/2, vx:(Math.random()-0.5)*6, vy:(Math.random()-1.2)*8, g:0.15+Math.random()*0.1, s:2+Math.random()*4, a:1, r:Math.random()*Math.PI
-      }));
-      let t=0; const colors=['#00e5ff','#7c3aed','#ff77e9','#00ffa3','#eaff6b'];
-      function frame(){
-        ctx.clearRect(0,0,w,h);
-        for(const p of parts){
-          p.vy+=p.g; p.x+=p.vx; p.y+=p.vy; p.a-=0.01; p.r+=0.1; if(p.a<=0) p.a=0;
-          ctx.save(); ctx.globalAlpha=p.a; ctx.translate(p.x,p.y); ctx.rotate(p.r);
-          ctx.fillStyle=colors[(Math.random()*colors.length)|0];
-          ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*2);
-          ctx.restore();
-        }
-        t++; if(t<160) requestAnimationFrame(frame); else ctx.clearRect(0,0,w,h);
+      const DPR=window.devicePixelRatio||1; let w=window.innerWidth, h=window.innerHeight; c.width=w*DPR; c.height=h*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+      const N=160; const parts=Array.from({length:N},()=>({x:w/2, y:h/2, vx:(Math.random()-0.5)*6, vy:(Math.random()-1.2)*8, g:0.18+Math.random()*0.08, s:6+Math.random()*10, a:1, r:Math.random()*Math.PI}));
+      function heartPath(ctx,size){ ctx.beginPath(); const s=size; ctx.moveTo(0,-s/3); ctx.bezierCurveTo(s/2,-s, s*1.2,-s*0.1, 0,s); ctx.bezierCurveTo(-s*1.2,-s*0.1, -s/2,-s, 0,-s/3); ctx.closePath(); }
+      let t=0; const colors=['#ff7aa2','#ff3d6e','#ffb199','#ff8fb3','#ffcad4'];
+      function frame(){ ctx.clearRect(0,0,w,h); for(const p of parts){ p.vy+=p.g; p.x+=p.vx; p.y+=p.vy; p.a-=0.012; p.r+=0.08; ctx.save(); ctx.globalAlpha=Math.max(0,p.a); ctx.translate(p.x,p.y); ctx.rotate(p.r); ctx.fillStyle=colors[(Math.random()*colors.length)|0]; heartPath(ctx,p.s); ctx.fill(); ctx.restore(); }
+        t++; if(t<180) requestAnimationFrame(frame); else ctx.clearRect(0,0,w,h);
       }
       frame();
     }
